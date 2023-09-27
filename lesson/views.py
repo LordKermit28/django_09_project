@@ -1,10 +1,6 @@
-from django.shortcuts import render
 from rest_framework import generics
-
 from lesson.models import Lesson
 from lesson.serializers import LessonSerializer
-
-
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
@@ -18,6 +14,7 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Lesson.objects.all()
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
+    serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
 class LessonUpdateAPIView(generics.UpdateAPIView):

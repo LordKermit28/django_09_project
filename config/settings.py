@@ -76,15 +76,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-password = os.getenv('PASSWORD')
+dotenv.load_dotenv()
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'project_new',
         'USER': 'postgres',
-        'PASSWORD': password,
+        'PASSWORD': os.environ.get("DATA_BASE_PASSWORD"),
     }
 }
 
