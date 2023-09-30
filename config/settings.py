@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user',
     'course',
     'lesson',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -77,13 +78,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 dotenv.load_dotenv()
-
+password = os.environ.get("DATA_BASE_PASSWORD")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'project_new',
         'USER': 'postgres',
-        'PASSWORD': os.environ.get("DATA_BASE_PASSWORD"),
+        'PASSWORD': password,
     }
 }
 
