@@ -13,13 +13,8 @@ class PayingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CourseSerializer(serializers.ModelSerializer):
-    lessons = serializers.SerializerMethodField()
     paying = PayingSerializer(many=True)
-
-    def get_lessons(self, instance):
-        lessons = instance.lesson_set.all()
-        lesson_serializer = LessonSerializer(lessons, many=True)
-        return lesson_serializer.data
+    lesson_set = LessonSerializer(many=True)
     def create(self, validated_data):
         paying_data = validated_data.pop('paying')
         course = Course.objects.create(**validated_data)
