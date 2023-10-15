@@ -2,6 +2,7 @@ from datetime import date
 
 from django.db import models
 
+from config import settings
 from lesson.models import Lesson
 from user.models import User
 
@@ -12,7 +13,7 @@ class Course(models.Model):
     preview = models.ImageField(null=True, blank=True)
     description = models.TextField()
     lessons = models.ManyToManyField(Lesson, related_name='courses')
-
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return f'{self.name}'
 

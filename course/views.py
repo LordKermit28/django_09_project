@@ -4,12 +4,16 @@ from rest_framework import viewsets
 from rest_framework import generics
 
 from course.models import Course, Paying
+from course.permissions import CoursePermission
 from course.serializers import CourseSerializer, PayingSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    permission_classes = [CoursePermission]
+    def perform_create(self, serializer):
+        new_course = serializer.save(author=self.request.user)
 
 
 class PayingListView(generics.ListAPIView):
