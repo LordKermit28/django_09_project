@@ -7,3 +7,14 @@ from user.serializers import UserSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        user = super().perform_create(serializer)
+
+        if user is not None:
+            password = self.request.data['password']
+            user.set_password(password)
+            user.save()
+
+        return user
+

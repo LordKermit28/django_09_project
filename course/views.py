@@ -12,6 +12,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [CoursePermission]
+
     def perform_create(self, serializer):
         new_course = serializer.save(author=self.request.user)
 
