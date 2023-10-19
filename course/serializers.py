@@ -18,7 +18,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['name', 'preview', 'description', 'lesson_count', 'paying']
+        fields = '__all__'
 
     def get_lesson_count(self, obj):
         return obj.lessons.count()
@@ -28,10 +28,13 @@ class CourseSerializer(serializers.ModelSerializer):
         lessons_data = self.initial_data.get('lessons', [])
 
         course = Course.objects.create(**validated_data)
+        lessons = []
 
         for lesson_id in lessons_data:
             lesson = get_object_or_404(Lesson, id=lesson_id)
-            course.lessons.add(lesson)
+            lessons.append(lesson)
+
+        course.lessons.set(lessons)
 
         for payment in paying_data:
             user = get_object_or_404(User, email=payment['user'])

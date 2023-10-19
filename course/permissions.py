@@ -14,6 +14,10 @@ class IsModer(BasePermission):
 
 class CoursePermission(BasePermission):
     def has_permission(self, request, view):
-        if request.method in ['POST', 'DELETE']:
-            return IsModer().has_permission(request, view)
-        return IsAuthenticated().has_permission(request, view)
+        if request.method == 'POST':
+            return IsAuthenticated().has_permission(request, view)
+        elif request.method in ['GET', 'PATCH']:
+            return IsAuthenticated().has_permission(request, view) and (IsAuthor().has_permission(request, view) or IsModer().has_permission(request, view))
+        elif request.method == 'DELETE':
+            return IsAuthor().has_permission(request, view)
+        return False
