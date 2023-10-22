@@ -6,6 +6,7 @@ from rest_framework import generics
 from course.models import Course, Paying
 from course.permissions import CoursePermission
 from course.serializers import CourseSerializer, PayingSerializer
+from lesson.models import Lesson
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -14,7 +15,13 @@ class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = [CoursePermission]
 
     def perform_create(self, serializer):
+        lessons_data = self.request.data.get('lessons', [])
+
         new_course = serializer.save(author=self.request.user)
+
+        for lesson_id in lessons_data:
+            lesson = Lesson.objects.get(pk=lesson_id)
+            new_course.lessons.add(lesson)
 
 
 class PayingListView(generics.ListAPIView):
