@@ -30,3 +30,11 @@ class Paying(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='paying', null=True, blank=True)
     sum = models.PositiveIntegerField()
     method_to_pay = models.CharField(max_length=10, choices=METHOD_CHOICES)
+
+class CourseSubscription(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='subscriptions')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='subscribers')
+    is_subscribed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.full_name} - {self.course.name}'

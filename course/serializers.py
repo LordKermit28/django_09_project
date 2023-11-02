@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from course.models import Course, Paying
+from course.models import Course, Paying, CourseSubscription
 from lesson.models import Lesson
 from user.models import User
 
@@ -34,3 +34,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 
+class CourseSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseSubscription
+        fields = ['user', 'course', 'is_subscribed']
