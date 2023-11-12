@@ -54,9 +54,11 @@ class CourseSubscriptionViewSet(APIView):
             if not subscription.is_subscribed:
                 subscription.is_subscribed = True
                 subscription.save()
+                print("You have just successfully subscribed")
             else:
                 subscription.is_subscribed = False
                 subscription.save()
+                print("You have successfully cancelled subscribing")
 
             serializer = CourseSubscriptionSerializer(subscription)
             return Response(serializer.data, status=200)
