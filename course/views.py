@@ -19,7 +19,7 @@ from rest_framework import serializers, viewsets
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [CoursePermission]
+    # permission_classes = [CoursePermission]
     pagination_class = CustomPaginator
 
     def perform_create(self, serializer):

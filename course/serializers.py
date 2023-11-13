@@ -15,6 +15,12 @@ class PayingSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     paying = PayingSerializer(many=True)
+    is_subscribed = serializers.SerializerMethodField()
+
+    def get_is_subscribed(self, obj):
+        user = self.context['request'].user
+        subscribed = CourseSubscription.objects.filter(course=obj, user=user, is_subscribed=True).exists()
+        return subscribed
 
     def create(self, validated_data):
         payings_data = validated_data.pop('paying')
@@ -30,7 +36,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['name', 'preview', 'description', 'lessons', 'paying']
+        fields = ['id', 'name', 'preview', 'description', 'lessons', 'paying', 'is_subscribed']
 
 
 
